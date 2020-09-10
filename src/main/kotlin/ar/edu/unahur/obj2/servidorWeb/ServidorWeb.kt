@@ -1,7 +1,5 @@
 package ar.edu.unahur.obj2.servidorWeb
 
-import java.time.LocalDateTime
-
 enum class CodigoHttp(val codigo: Int) {
   OK(200),
   NOT_IMPLEMENTED(501),
@@ -10,8 +8,9 @@ enum class CodigoHttp(val codigo: Int) {
 
 class ServidorWeb {
   val modulos = mutableListOf<Modulo>()
+  val analizadores = mutableListOf<Analizadores>()
 
-  fun realizarPedido(ip: String, url: String, fechaHora: LocalDateTime): Respuesta {
+  fun realizarPedido(ip: String, url: String, fechaHora: Int): Respuesta {
     if (!url.startsWith("http:")) {
       return Respuesta(codigo = CodigoHttp.NOT_IMPLEMENTED, body = "", tiempo = 10)
     }
@@ -29,6 +28,21 @@ class ServidorWeb {
   fun agregarModulo(modulo: Modulo) {
     this.modulos.add(modulo)
   }
+
+  fun agregarAnalizador(analizador: Analizadores) =  this.analizadores.add(analizador)
+  fun quitarAnalizador(analizador: Analizadores)  = this.analizadores.remove(analizador)
 }
 
-class Respuesta(val codigo: CodigoHttp, val body: String, val tiempo: Int)
+class Respuesta(val codigo: CodigoHttp, val body: String, val tiempo: Int){}
+
+
+/*class AnalizadorDeDemoras(val demoraMinima: Int ) : Analizador(){
+  val respuestasDemoradas = mutableListOf<Respuesta>()
+  override fun analizar(respuesta: Respuesta) {
+    if (respuesta.tiempo > demoraMinima) {
+        respuestasDemoradas.add(respuesta)
+    }
+
+
+  }
+}*/
